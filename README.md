@@ -7,7 +7,6 @@ The generated image will be named as image-name.thumb.ext
 * -crop - Crops the image
 
 ###Usage
-<<<<<<< HEAD
     python resize-image.py <param> <image> <size>
 
 The \<size> argument is based on the image type.
