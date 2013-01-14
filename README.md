@@ -12,7 +12,7 @@ The generated image will be named as image-name.thumb.ext
 
 If the last parameter is specified then the created thumb will include the string as well:
 
-  Ex: python resize-image.py <param> <image/folder> <size> randomstring
+    Ex: python resize-image.py <param> <image/folder> <size> randomstring
 
 Will generate a file that has \<filename>.thumb.randomstring.\<extension>
 
