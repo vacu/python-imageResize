@@ -18,35 +18,19 @@ class ImageHelper:
 
   # imageType can be image (by default) or the filename in case we are passing the folder
   def saveFile(self, imageFile, imageType = 'image'):
+    if len(sys.argv) > 4:
+      if sys.argv[4] is not None: filename = '.thumb.' + sys.argv[4];
+    else: filename = '.thumb';
+
     if imageType == 'image':
-      if len(sys.argv) > 4:
-        # if the 4th param is not null then append it to the filename
-        if sys.argv[4] is not None:
-          imageFile.save(
-            os.path.splitext(sys.argv[2])[0] + '.thumb.' + sys.argv[4] + os.path.splitext(sys.argv[2])[1],
-            imageFile.format,
-            quality=100
-          );
-      # if there are not more than 4 params than create the thumb
-      else:
-        imageFile.save(
-          os.path.splitext(sys.argv[2])[0] + '.thumb' + os.path.splitext(sys.argv[2])[1],
-          imageFile.format,
-          quality=100
-        );
+      imageFile.save(
+        os.path.splitext(sys.argv[2])[0] + filename + os.path.splitext(sys.argv[2])[1],
+        imageFile.format,
+        quality=100
+      );
     else:
-      if len(sys.argv) > 4:
-        # if the 4th param is not null then append it to the filename
-        if sys.argv[4] is not None:
-          imageFile.save(
-            sys.argv[2] + os.path.splitext(imageType)[0] + '.thumb.' + sys.argv[4] + os.path.splitext(imageType)[1],
-            imageFile.format,
-            quality=100
-          );
-      # if there are not more than 4 params than create the thumb
-      else:
-        imageFile.save(
-          sys.argv[2] + os.path.splitext(imageType)[0] + '.thumb' + os.path.splitext(imageType)[1],
-          imageFile.format,
-          quality=100
-        );
+      imageFile.save(
+        sys.argv[2] + os.path.splitext(imageType)[0] + filename + os.path.splitext(imageType)[1],
+        imageFile.format,
+        quality=100
+      );
