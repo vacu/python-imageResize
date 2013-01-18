@@ -8,47 +8,70 @@ class MainWindow(wx.Frame):
   def __init__(self, parent, title):
     # main window
     wx.Frame.__init__(self, parent, title = title, size = (800, 600))
+    self.selectedPath = None;
     self.InitUI()
+    # render the frame
+    self.Center()
+    self.Show()
 
   def InitUI(self):
     # type folder / image
     self.fileRadio = wx.RadioButton(self, label = 'Single file', pos = (20, 0))
+    self.Bind(wx.EVT_RADIOBUTTON, self.changeDialogTypeFile, self.fileRadio)
+
     self.folderRadio = wx.RadioButton(self, label = 'Folder', pos = (120, 0))
+    self.Bind(wx.EVT_RADIOBUTTON, self.changeDialogTypeDir, self.folderRadio)
 
     # directory dialog
-    self.openDirBrowser = wx.Button(self, label = 'Search for file or folder', pos = (20, 180))
-    self.Bind(wx.EVT_BUTTON, self.OpenDirDialog, self.openDirBrowser)
+    self.openDirBrowser = wx.Button(self, label = 'Search for file or folder', pos = (20, 30))
 
-    # label
-    self.pathLabel = wx.StaticText(self, label = 'File or folder (complete path): ', pos = (20, 30))
-    self.stringLabel = wx.StaticText(self, label = 'Append to end of file: ', pos = (20, 60))
     # path control (input)
-    self.pathTxt = wx.TextCtrl(self, pos = (300, 30))
+    self.stringLabel = wx.StaticText(self, label = 'Append to end of file: ', pos = (20, 60))
     self.stringTxt = wx.TextCtrl(self, pos = (300, 60))
 
     # button
     self.applyBtn = wx.Button(self, label = 'Create thumbs', pos = (500, 90))
     self.Bind(wx.EVT_BUTTON, self.OnClick, self.applyBtn)
 
-    # render the frame
-    self.Center()
-    self.Show()
+  def changeDialogTypeFile(self, event):
+    self.Bind(wx.EVT_BUTTON, self.OpenFileDialog, self.openDirBrowser)
+
+  def changeDialogTypeDir(self, event):
+    self.Bind(wx.EVT_BUTTON, self.OpenDirDialog, self.openDirBrowser)
 
   def OpenDirDialog(self, event):
     dirDialog = wx.DirDialog(
       self,
-      message = 'Choose a directory or image: ',
+      message = 'Choose a directory: ',
       defaultPath = os.getcwd(),
       style = wx.DD_DEFAULT_STYLE,
       pos = (60, 220)
     )
 
     if dirDialog.ShowModal() == wx.ID_OK:
-      print "You chose %s" % dirDialog.GetPath()
+      self.selectedPath = dirDialog.GetPath()
+
     dirDialog.Destroy()
+    return self.selectedPath;
+
+  def OpenFileDialog(self, event):
+    fileDialog = wx.FileDialog(
+      self,
+      message = 'Choose a file: ',
+      defaultDir = os.getcwd(),
+      style = wx.OPEN | wx.MULTIPLE | wx.CHANGE_DIR
+    )
+
+    if fileDialog.ShowModal() == wx.ID_OK:
+      paths = fileDialog.GetPaths()
+      print "You chose the following file(s):"
+      for path in paths:
+        print path
+    fileDialog.Destroy()
 
   def OnClick(self, event):
-    imgHelper = helpers.ImageHelper();
+    print self.selectedPath;
+    # imgHelper = helpers.ImageHelper();
     # if len(sys.argv) > 1:
     #   # image file
     #   if sys.argv[1] != '-folder':
@@ -80,7 +103,7 @@ class MainWindow(wx.Frame):
     #     );
 
     # write the status of the current operation
-    self.pathTxt.SetValue('button clicked')
+    # self.pathTxt.SetValue('button clicked')
 
 # run the app
 def main():
