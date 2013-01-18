@@ -20,7 +20,8 @@ class ImageHelper:
   def saveFile(self, imageFile, imageType = 'image'):
     if len(sys.argv) > 4:
       if sys.argv[4] is not None: filename = '.thumb.' + sys.argv[4];
-    else: filename = '.thumb';
+    else:
+      filename = '.thumb';
 
     if imageType == 'image':
       imageFile.save(
