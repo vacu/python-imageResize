@@ -17,6 +17,7 @@ class MainWindow(wx.Frame):
   def InitUI(self):
     # type folder / image
     self.fileRadio = wx.RadioButton(self, label = 'Single file', pos = (20, 0))
+    self.fileRadio.SetValue(True)
     self.Bind(wx.EVT_RADIOBUTTON, self.changeDialogTypeFile, self.fileRadio)
 
     self.folderRadio = wx.RadioButton(self, label = 'Folder', pos = (120, 0))
@@ -32,6 +33,9 @@ class MainWindow(wx.Frame):
     # button
     self.applyBtn = wx.Button(self, label = 'Create thumbs', pos = (500, 90))
     self.Bind(wx.EVT_BUTTON, self.OnClick, self.applyBtn)
+
+    # status text
+    self.console = wx.TextCtrl(self, style = wx.TE_MULTILINE | wx.TE_READONLY, size = (600, 300), pos = (20, 120))
 
   def changeDialogTypeFile(self, event):
     self.Bind(wx.EVT_BUTTON, self.OpenFileDialog, self.openDirBrowser)
@@ -64,7 +68,6 @@ class MainWindow(wx.Frame):
 
     if fileDialog.ShowModal() == wx.ID_OK:
       paths = fileDialog.GetPaths()
-      print "You chose the following file(s):"
       for path in paths:
         print path
     fileDialog.Destroy()
