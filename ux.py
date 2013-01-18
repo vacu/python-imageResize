@@ -8,7 +8,9 @@ class MainWindow(wx.Frame):
   def __init__(self, parent, title):
     # main window
     wx.Frame.__init__(self, parent, title = title, size = (800, 600))
+    self.InitUI()
 
+  def InitUI(self):
     # type folder / image
     self.fileRadio = wx.RadioButton(self, label = 'Single file', pos = (20, 0))
     self.folderRadio = wx.RadioButton(self, label = 'Folder', pos = (120, 0))
@@ -29,10 +31,18 @@ class MainWindow(wx.Frame):
     self.Bind(wx.EVT_BUTTON, self.OnClick, self.applyBtn)
 
     # render the frame
+    self.Center()
     self.Show()
 
   def OpenDirDialog(self, event):
-    dirDialog = wx.DirDialog(self, message = 'Choose a directory or image: ', defaultPath = os.getcwd(),  style = wx.DD_DEFAULT_STYLE, pos = (60, 220))
+    dirDialog = wx.DirDialog(
+      self,
+      message = 'Choose a directory or image: ',
+      defaultPath = os.getcwd(),
+      style = wx.DD_DEFAULT_STYLE,
+      pos = (60, 220)
+    )
+
     if dirDialog.ShowModal() == wx.ID_OK:
       print "You chose %s" % dirDialog.GetPath()
     dirDialog.Destroy()
@@ -73,6 +83,10 @@ class MainWindow(wx.Frame):
     self.pathTxt.SetValue('button clicked')
 
 # run the app
-app = wx.App(False)
-frame = MainWindow(None, "GUI for thumb creation")
-app.MainLoop()
+def main():
+  app = wx.App(False)
+  frame = MainWindow(None, "GUI for thumb creation")
+  app.MainLoop()
+
+if __name__ == '__main__':
+  main()
