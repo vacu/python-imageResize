@@ -33,7 +33,7 @@ class ImageHelper:
       );
     else:
       return imageFile.save(
-        sys.argv[2] + os.path.splitext(imageType)[0] + filename + os.path.splitext(imageType)[1],
+        filePath + '/' + os.path.splitext(imageType)[0] + filename + os.path.splitext(imageType)[1],
         imageFile.format,
         quality=100
       );
