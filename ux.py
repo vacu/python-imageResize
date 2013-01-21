@@ -6,6 +6,8 @@ import helpers
 
 class MainWindow(wx.Frame):
   def __init__(self, parent, title):
+    # new ID for CMD_Q
+    self.cmd_q = wx.NewId();
     # main window
     wx.Frame.__init__(self, parent, title = title, size = (800, 600));
     self.selectedPath = [];
@@ -15,6 +17,12 @@ class MainWindow(wx.Frame):
     self.Show();
 
   def InitUI(self):
+    # bind CMD_Q and destroy the app when clicked
+    self.Bind(wx.EVT_MENU, self.QuitWithCmdQ, id=self.cmd_q);
+    accelerators = wx.AcceleratorTable([(wx.ACCEL_CMD, ord('Q'), self.cmd_q)]);
+    self.SetAcceleratorTable(accelerators);
+    # end CMD_Q
+
     # type folder / image
     self.fileRadio = wx.RadioButton(self, label = 'Single file', pos = (20, 0));
     self.fileRadio.SetValue(True);
@@ -42,6 +50,10 @@ class MainWindow(wx.Frame):
 
     # status text
     self.console = wx.TextCtrl(self, style = wx.TE_MULTILINE | wx.TE_READONLY, size = (600, 300), pos = (20, 150));
+
+  # Quit app with CMD_Q
+  def QuitWithCmdQ(self, event):
+    self.Destroy();
 
   def changeDialogTypeFile(self, event):
     self.Bind(wx.EVT_BUTTON, self.OpenFileDialog, self.openDirBrowser);
